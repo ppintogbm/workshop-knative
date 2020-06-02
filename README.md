@@ -1,12 +1,9 @@
 # Knative Workshop
 
-> Workshop de knative para Kubernetes y Red Hat Openshift. 
+> Workshop de knative para Red Hat Openshift y Kubernetes. 
 
 ## Guía
 1. [Pre-requisitos](docs/pre-requisitos.md)
-2. [Configuración](docs/configuracion.md)
-   1. [Openshift](docs/configuracion.md#Openshift)
-   2. [Kubernetes](docs/configuracion.md#Kubernetes)
-3. [Serving](docs/serving.md)
-   1. 
-4. Eventing
+2. [Serving](docs/serving/)
+   1. [Primer Servicio](docs/serving/primer-servicio.md)
+3. [Eventing](docs/eventing/)

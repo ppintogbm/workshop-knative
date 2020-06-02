@@ -1,5 +1,0 @@
-# Knative Serving
-
-## Despliegue
-
-##
