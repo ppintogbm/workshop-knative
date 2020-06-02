@@ -1,7 +1,6 @@
 # Knative Serving - Primer Servicio
 
 ## Despliegue
----
 Vamos a proceder a crear nuestro primer servicio en Knative. El servicio en cuestión utilizara un contenedor cuya función es dar una respuesta HTTP y un conteo de las peticiones que ha atendido.
 
    [`service.yaml`](../deploy/files/service.yaml)
@@ -54,7 +53,6 @@ kubectl get -n knative-tutorial pods --watch
 >También es posible sustituir el nombre `service.serving.knative.dev` por `ksvc` o `kservice` que son las abreviaciones para el tipo de recurso.
 
 ## Invocación
----
 Si nos mantuvimos esperando que los `pods` terminasen en el paso anterior, en este momento no debe haber quien atienda las peticiones. No obstante, debido a que sigue existiendo la definición del servicio (`kservice` en adelante) es posible realizar peticiones al mismo. 
 
 Para poder invocar el `kservice`, primero obtenemos el `URL` mediante el cuál invocar el mismo, en la salida del siguiente comando:
@@ -96,7 +94,6 @@ kubectl get -n knative-tutorial pods
 
 
 ## Validación de recursos
----
 Con la creación del `kservice` se crearan otros recursos de knative. Podemos validar los mismos con los siguientes comandos:
 
 ### Services (`kservice` o `ksvc`)
@@ -143,7 +140,5 @@ kubectl -n knative-tutorial get revisions.serving.knative.dev
 
 ![Verificación de recursos ](../assets/images/primer-servicio-03.png)
 ## Actualización
----
 
-Limpieza
----
+## Limpieza
