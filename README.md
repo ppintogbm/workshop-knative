@@ -4,4 +4,10 @@
 
 ## Guía
 1. [Pre-requisitos](docs/pre-requisitos.md)
-2. Instalación
+2. [Configuración](docs/configuracion.md)
+   1. [Openshift](docs/configuracion.md#Openshift)
+   2. [Kubernetes](docs/configuracion.md#Kubernetes)
+3. Serving
+   1. 
+4. Eventing
+   1. 
