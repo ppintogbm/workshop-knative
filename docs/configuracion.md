@@ -5,7 +5,7 @@
 1. Ingresamos a la consola web de openshift.
 2. Ingresamos a `Operators > OperatorHub`
 3. Ubicamos el Operador `Openshift Serverless Operator` y procedemos a instalar el mismo
-   ![configuracion-openshift-01.png](images/configuracion-openshift-01.png)
+   ![configuracion-openshift-01.png](assets/images/configuracion-openshift-01.png)
 4. Elegir en `Update Channel` con versión `x.x` y dejar lo demás predeterminado, para proceder con la suscripción del operador.
 
 ## Kubernetes
