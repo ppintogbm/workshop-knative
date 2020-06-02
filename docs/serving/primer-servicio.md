@@ -3,35 +3,35 @@
 ## Despliegue
 Vamos a proceder a crear nuestro primer servicio en Knative. El servicio en cuestión utilizara un contenedor cuya función es dar una respuesta HTTP y un conteo de las peticiones que ha atendido.
 
-   [`service.yaml`](../deploy/files/service.yaml)
-   ```yaml
-    apiVersion: serving.knative.dev/v1
-    kind: Service
-    metadata:
-      name: greeter
+[`service.yaml`](deploy/primer-servicio/service.yaml)
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: greeter
+spec:
+  template:
     spec:
-      template:
-        spec:
-          containers:
-          - image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
-            livenessProbe:
-              httpGet:
-                path: /healthz
-            readinessProbe:
-              httpGet:
-                path: /healthz
+      containers:
+      - image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
+        livenessProbe:
+          httpGet:
+            path: /healthz
+        readinessProbe:
+          httpGet:
+            path: /healthz
    ```
 
 Procedemos a crear el mismo con:
 
 *Openshift*
 ```console
-oc apply -n knative-tutorial -f "deploy/files/service.yaml"
+oc apply -n knative-tutorial -f "deploy/primer-servicio/service.yaml"
 ```
 
 *Kubernetes*
 ```console
-kubectl apply -n knative-tutorial -f "deploy/files/service.yaml"
+kubectl apply -n knative-tutorial -f "deploy/primer-servicio/service.yaml"
 ```
 
 Podemos validar el servicio desplegado con los siguientes comandos:
@@ -141,4 +141,69 @@ kubectl -n knative-tutorial get revisions.serving.knative.dev
 ![Verificación de recursos ](../assets/images/primer-servicio-03.png)
 ## Actualización
 
+Múltiples motivos pueden influir en la necesidad de ejecutar actualización sobre nuestros servicios, como por ejemplo: cambios en la configuración(parametrización) o en la lógica de los mismos(nuevas versiones). 
+
+El siguiente ejemplo incluye cambios en la parametrización del servicio existente, tal como se describe a continuación:
+
+[`service-env.yaml`](deploy/primer-servicio/service-env.yaml)
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: greeter
+spec:
+  template:
+    spec:
+      containers:
+      - image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
+        env:
+        - name: MESSAGE_PREFIX
+          value: Namaste
+        livenessProbe:
+          httpGet:
+            path: /healthz
+        readinessProbe:
+          httpGet:
+            path: /healthz
+```
+Procedemos a crear el mismo con:
+
+*Openshift*
+```console
+oc apply -n knative-tutorial -f "deploy/primer-servicio/service-env.yaml"
+```
+
+*Kubernetes*
+```console
+kubectl apply -n knative-tutorial -f "deploy/primer-servicio/service-env.yaml"
+```
+
+Una vez aplicado el mismo, podemos validar que obtendremos ahora 2 `revisions` distintas al usar el comando 
+*Openshift*
+```console
+oc -n knative-tutorial get revisions
+```
+
+*Kubernetes*
+```console
+kubectl -n knative-tutorial get revisions"
+```
+
+Si [invocamos](#invocación) el servicio nuevamente, el mismo enviara una respuesta un tanto distinta en el saludo
+
+![Actualización de servicio](../assets/images/primer-servicio-04.png)
+
+>En este punto, hemos logrado actualizar el servicio y hacer que el mismo responda tomando en cuenta nuevos parámetros de configuración. 
+
 ## Limpieza
+Limpiamos el entorno con el siguiente comando:
+
+*Openshift*
+```console
+oc -n knative-tutorial delete -f deploy/primer-servicio/
+```
+
+*Kubernetes*
+```console
+kubectl -n knative-tutorial delete -f deploy/primer-servicio/
+```
