@@ -26,25 +26,25 @@ Procedemos a crear el mismo con:
 
 *Openshift*
 ```console
-oc apply -n knative-tutorial -f "deploy/primer-servicio/service.yaml"
+oc -n knative-tutorial apply -f "deploy/primer-servicio/service.yaml"
 ```
 
 *Kubernetes*
 ```console
-kubectl apply -n knative-tutorial -f "deploy/primer-servicio/service.yaml"
+kubectl -n knative-tutorial apply -f "deploy/primer-servicio/service.yaml"
 ```
 
 Podemos validar el servicio desplegado con los siguientes comandos:
 
 *Openshift*
 ```console
-oc get -n knative-tutorial service.serving.knative.dev
-oc get -n knative-tutorial pods --watch
+oc -n knative-tutorial get service.serving.knative.dev
+oc -n knative-tutorial get pods --watch
 ```
 *Kubernetes*
 ```console
-kubectl get -n knative-tutorial service.serving.knative.dev
-kubectl get -n knative-tutorial pods --watch
+kubectl -n knative-tutorial get service.serving.knative.dev
+kubectl -n knative-tutorial get pods --watch
 ```
 > *Debido a que se está pasando la bandera `--watch` el cliente correspondiente se mantendrá esperando actualizaciones de estado. Este paso se hace con la intención de observar que al no recibir peticiones, los `pods` creados con el servicio serán terminados. Una vez esto ocurra, se puede cancelar el modo de espera con `Ctrl+C`*
 
@@ -59,11 +59,11 @@ Para poder invocar el `kservice`, primero obtenemos el `URL` mediante el cuál i
 
 *Openshift*
 ```console
-oc get -n knative-tutorial kservice greeter
+oc -n knative-tutorial get kservice greeter
 ```
 *Kubernetes*
 ```console
-kubectl get -n knative-tutorial kservice greeter
+kubectl -n knative-tutorial get kservice greeter
 ```
 
 Para activar el servicio, basta con hacerle una petición al mismo, para lo cuál utilizaremos el siguiente comando:
@@ -82,11 +82,11 @@ Si validamos a este punto los `pods`, deberíamos observar que nuevamente existe
 
 *Openshift*
 ```console
-oc get -n knative-tutorial pods
+oc -n knative-tutorial get pods
 ```
 *Kubernetes*
 ```console
-kubectl get -n knative-tutorial pods
+kubectl -n knative-tutorial get pods
 ```
 
 
@@ -170,12 +170,12 @@ Procedemos a crear el mismo con:
 
 *Openshift*
 ```console
-oc apply -n knative-tutorial -f "deploy/primer-servicio/service-env.yaml"
+oc -n knative-tutorial apply -f "deploy/primer-servicio/service-env.yaml"
 ```
 
 *Kubernetes*
 ```console
-kubectl apply -n knative-tutorial -f "deploy/primer-servicio/service-env.yaml"
+kubectl -n knative-tutorial apply -f "deploy/primer-servicio/service-env.yaml"
 ```
 
 Una vez aplicado el mismo, podemos validar que obtendremos ahora 2 `revisions` distintas al usar el comando 
