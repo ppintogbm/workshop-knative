@@ -7,7 +7,6 @@
 2. [Configuración](docs/configuracion.md)
    1. [Openshift](docs/configuracion.md#Openshift)
    2. [Kubernetes](docs/configuracion.md#Kubernetes)
-3. Serving
+3. [Serving](docs/serving.md)
    1. 
 4. Eventing
-   1. 
