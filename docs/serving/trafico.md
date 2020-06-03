@@ -2,6 +2,11 @@
 
 ## Introducción
 Durante está actividad, ejecutaremos tareas que nos daran la capacidad de:
+- Desplegar múltiples revisiones de un mismo servicio. 
+- Configurar el trafico de peticiones entre diferentes revisiones del servicio. 
+- Acceder a las *sub-rutas* generadas por revisión de un servicio.
+- Probar *Blue-Green Deployments*
+- Probar *Canary Deployments*
 
 ## Control de nombre de revisiones
 Por defecto, Knative genera los nombres para las revisiones, basados en el nombre del servicio. Debido a que para el control de tráfico entre revisiones, es requerido utilizar el nombre de las mismas, en está sección veremos como generar nombres especificos de revisiones. 
@@ -60,13 +65,17 @@ Procedemos entonces a crear ambos con los siguientes comandos:
 ```console
 oc -n knative-tutorial apply -f "deploy/serving/trafico/greeter-v1.yaml"
 oc -n knative-tutorial apply -f "deploy/serving/trafico/greeter-v2.yaml"
+oc -n knative-tutorial get pods --watch
 ```
 
 *Kubernetes*
 ```console
 kubectl -n knative-tutorial apply -f "deploy/serving/trafico/greeter-v1.yaml"
 kubectl -n knative-tutorial apply -f "deploy/serving/trafico/greeter-v1.yaml"
+kubectl -n knative-tutorial get pods --watch
 ```
+
+>*Esperamos que los pod's estén disponibles y cancelamos con `Control+C`.
 
 Una vez creados, podemos validar las diferentes revisiones con el comando:
 
@@ -104,6 +113,8 @@ Invoke-WebRequest [URL]
 ```
 
 Si realizamos múltiples llamados, veremos que en todos responde la configuración establecida para la `rev` `greeter-v2`. En las siguientes tareas veremos el por qué y como manipular este comportamiento.
+
+![nombres arbitrarios de revisiones](../assets/images/trafico-01.png)
 
 >*Durante está actividad hemos usados las versiones abreviadas o alias de los recursos de Knative, como por ejemplo `rev` y `rt`, que son equivalentes a `revisions.serving.knative.dev` y `routes.serving.knative.dev` respectivamente*
 
@@ -174,6 +185,8 @@ kubectl -n knative-tutorial get kservice greeter -o jsonpath='{range .status.tra
 
 Podemos proceder a [invocar](#invocacion) cada una de ellas para validar las diferentes revisiones.
 
+![Control de despliegues](../assets/images/trafico-02.png)
+
 ## Aplicando patrón de *Canary Release* 
 En este patrón podemos realizar despliegues un poco más efectivos al tratar de reducir el riesgo con nuevas carácteristicas. Para ello se puede asignar que un porcentaje de las peticiones sean enviadas a la nueva versión. 
 
@@ -240,6 +253,8 @@ oc -n knative-tutorial get pods
 ```console
 kubectl -n knative-tutorial get pods
 ```
+![Canary Deployments](../assets/images/trafico-03.png)
+
 ## Limpieza
 Limpiamos el entorno con el siguiente comando:
 
