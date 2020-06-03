@@ -2,8 +2,10 @@
 
 > Workshop de knative para Red Hat Openshift y Kubernetes. 
 
-## Guía
-1. [Pre-requisitos](docs/pre-requisitos.md)
-2. [Serving](docs/serving/)
-   1. [Primer Servicio](docs/serving/primer-servicio.md)
-3. [Eventing](docs/eventing/)
+## Contenido
+- [Pre-requisitos](docs/pre-requisitos.md)
+- [Serving](docs/serving/)
+   * [Primer Servicio](docs/serving/primer-servicio.md)
+   * [Manejo de tráfico](docs/serving/trafico.md)
+   * [Escalabilidad](docs/serving/escalabilidad.md)
+- [Eventing](docs/eventing/)

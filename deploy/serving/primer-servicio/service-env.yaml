@@ -9,7 +9,7 @@ spec:
       - image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
         env:
         - name: MESSAGE_PREFIX
-          value: Namaste
+          value: Hola
         livenessProbe:
           httpGet:
             path: /healthz

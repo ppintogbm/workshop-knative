@@ -1,9 +1,16 @@
 # Knative Serving - Primer Servicio
 
+## Introducción
+Durante está actividad, ejecutaremos tareas que nos daran la capacidad de:
+- Despliegar servicios de Knative.
+- Accesar a servicios de Knative desplegados.
+- Identificar los diferentes recursos (*CRD's*) de Knative generados con un servicio.
+- Actualizar despliegues de servicios de Knative existentes.
+
 ## Despliegue
 Vamos a proceder a crear nuestro primer servicio en Knative. El servicio en cuestión utilizara un contenedor cuya función es dar una respuesta HTTP y un conteo de las peticiones que ha atendido.
 
-[`service.yaml`](deploy/primer-servicio/service.yaml)
+[`service.yaml`](../../deploy/serving/primer-servicio/service.yaml)
 ```yaml
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -26,12 +33,12 @@ Procedemos a crear el mismo con:
 
 *Openshift*
 ```console
-oc -n knative-tutorial apply -f "deploy/primer-servicio/service.yaml"
+oc -n knative-tutorial apply -f "deploy/serving/primer-servicio/service.yaml"
 ```
 
 *Kubernetes*
 ```console
-kubectl -n knative-tutorial apply -f "deploy/primer-servicio/service.yaml"
+kubectl -n knative-tutorial apply -f "deploy/serving/primer-servicio/service.yaml"
 ```
 
 Podemos validar el servicio desplegado con los siguientes comandos:
@@ -72,8 +79,7 @@ Para activar el servicio, basta con hacerle una petición al mismo, para lo cuá
 ```console
 curl -s [URL] 
 ```
-*Powershell*
-*Linux y MacOS*
+*Windows Powershell*
 ```console
 Invoke-WebRequest [URL]
 ```
@@ -145,7 +151,7 @@ Múltiples motivos pueden influir en la necesidad de ejecutar actualización sob
 
 El siguiente ejemplo incluye cambios en la parametrización del servicio existente, tal como se describe a continuación:
 
-[`service-env.yaml`](deploy/primer-servicio/service-env.yaml)
+[`service-env.yaml`](../../deploy/serving/primer-servicio/service-env.yaml)
 ```yaml
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -158,7 +164,7 @@ spec:
       - image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
         env:
         - name: MESSAGE_PREFIX
-          value: Namaste
+          value: Hola
         livenessProbe:
           httpGet:
             path: /healthz
@@ -170,12 +176,12 @@ Procedemos a crear el mismo con:
 
 *Openshift*
 ```console
-oc -n knative-tutorial apply -f "deploy/primer-servicio/service-env.yaml"
+oc -n knative-tutorial apply -f "deploy/serving/primer-servicio/service-env.yaml"
 ```
 
 *Kubernetes*
 ```console
-kubectl -n knative-tutorial apply -f "deploy/primer-servicio/service-env.yaml"
+kubectl -n knative-tutorial apply -f "deploy/serving/primer-servicio/service-env.yaml"
 ```
 
 Una vez aplicado el mismo, podemos validar que obtendremos ahora 2 `revisions` distintas al usar el comando 
@@ -200,10 +206,10 @@ Limpiamos el entorno con el siguiente comando:
 
 *Openshift*
 ```console
-oc -n knative-tutorial delete -f deploy/primer-servicio/
+oc -n knative-tutorial delete -f deploy/serving/primer-servicio/
 ```
 
 *Kubernetes*
 ```console
-kubectl -n knative-tutorial delete -f deploy/primer-servicio/
+kubectl -n knative-tutorial delete -f deploy/serving/primer-servicio/
 ```
