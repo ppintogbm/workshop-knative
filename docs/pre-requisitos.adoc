@@ -1,0 +1,29 @@
+= Pre-requisitos
+
+== CLI
+
+|=== 
+| Herramienta | Linux | Windows | macOS
+
+| Git
+| 
+|
+| 
+
+| stern
+| link:https://github.com/wercker/stern/releases/download/1.11.0/stern_linux_amd64[Descarga]
+| link:https://github.com/wercker/stern/releases/download/1.11.0/stern_windows_amd64[Descarga]
+| `brew install stern`
+
+| hey
+| link:https://storage.googleapis.com/hey-release/hey_linux_amd64[Descarga]
+| link:https://storage.googleapis.com/hey-release/hey_windows_amd64[Descarga]
+| `brew install hey`
+
+|===
+
+== Namespace
+Debemos crear un `namepace`/`proyecto` para los diferentes recursos a crear.
+
+....
+oc new-project knative-tutorial --description "Knative Workshop"
