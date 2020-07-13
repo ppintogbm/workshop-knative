@@ -3,21 +3,18 @@
 = Primer Servicio
 
 == Despliegue
-Para crear un servicio en _Knative_, podemos utilizar el siguiente archivo de definición.
+Para crear un servicio en _Knative_, podemos utilizar el siguiente archivo de definición: 
+ifdef::env-github[]
+<<{sourcedir}/service.yaml,service.yaml>>
+endif::[]
 
-
-ifdef::env-github,backend-html5[]
+ifndef::env-github[]
 [source,yaml]
 ----
-<<{sourcedir}/service.yaml,Overview>>
+include::{sourcedir}/service.yaml[]
 ----
 endif::[]
-ifndef::env-github,backend-html5[]
-[source,yaml]
-----
-include::{sourcedir}/service.yaml
-----
-endif::[]
+
 [quote]
 El servicio _greeter_ como lo indica su nombre, es un pequeño servicio que al ser invocado devuelve un saludo con la cantidad de peticiones recibidas.
 
