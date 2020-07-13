@@ -7,16 +7,16 @@ Para crear un servicio en _Knative_, podemos utilizar el siguiente archivo de de
 
 
 ifdef::env-github,backend-html5[]
-  [source,yaml]
-  ----
-  <<{sourcedir}/service.yaml,Overview>>
-  ----
+[source,yaml]
+----
+<<{sourcedir}/service.yaml,Overview>>
+----
 endif::[]
 ifndef::env-github,backend-html5[]
-  [source,yaml]
-  ----
-  include::{sourcedir}/service.yaml
-  ----
+[source,yaml]
+----
+include::{sourcedir}/service.yaml
+----
 endif::[]
 [quote]
 El servicio _greeter_ como lo indica su nombre, es un pequeño servicio que al ser invocado devuelve un saludo con la cantidad de peticiones recibidas.
