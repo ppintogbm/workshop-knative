@@ -27,3 +27,73 @@ Podemos validar el mismo con: +
 [quote]
 Al pasar la bandera _--watch_ observaremos como el `pod` eventualmente desaparece al no recibir petición alguna.
 
+[quote]
+El nombre `service.serving.knative.dev` puede ser sustituido simplemente por `ksvc` o `kservice` los cuales son abreviaciones para el mismo.
+
+== Invocación
+Si nos mantuvimos en el punto anterior con el __--watch__, procedemos a dar `Control+C` para obtener la dirección para invocar el servicio con el siguiente comando:
+
+`oc -n knative-tutorial get kservice greeter`
+
+Tomamos el valor de la columna `URL` y procedemos a invocar el servicio con el comando:
+
+__Linux/macOS__ + 
+`curl -s [URL]`
+
+__Windows Powershell__ +
+`Invoke-WebRequest [URL]`
+
+Obtenida una respuesta, validamos nuevamente los `pods` para observar que efectivamente se genero uno nuevo para atender la petición realizado.
+
+== Validación de recursos
+Vamos a estudiar todos los recursos a nivel de __Kubernetes__, que se generan al crear un `kservice`
+
+=== Services (`kservice` o `ksvc`)
+
+`oc -n knative-tutorial get services.serving.knative.dev`
+
+=== Configurations (`cfg`)
+
+`oc -n knative-tutorial get configurations.serving.knative.dev`
+
+=== Routes (`rt`)
+
+`oc -n knative-tutorial get routes.serving.knative.dev`
+
+=== Revisions (`rev`)
+
+`oc -n knative-tutorial get revisions.serving.knative.dev`
+
+[quote]
+Entre parentesís se han indicado las abreviaciones correspondientes a cada tipo de recurso del __apiGroup__ `serving.knative.dev`. Pruebelas y acostumbrese a ellas para simplificar las validaciones :)
+
+== Actualización
+
+Procederemos a actualizar un servicio existente, para alterar el comportamiento del mismo. para ello desplegaremos la siguiente definición:
+
+ifndef::env-github[]
+[source,yaml]
+----
+endif::[]
+include::{sourcedir}/service-env.yaml[]
+ifndef::env-github[]
+----
+endif::[]
+
+[quote]
+En el ejemplo estamos desplegando el mismo servicio, con una modificación a nivel de una variable de entorno, la cual altera el comportamiento del servicio.
+
+Creamos el mismo con:
+
+`oc -n knative-tutorial apply -f "{sourceroot}/service-env.yaml"`
+
+Una vez esté este desplegado, podremos validar que tenemos 2 `rev` distintas con el comando 
+
+`oc -n knative-tutorial get rev`
+
+Ahora si <<Invocación, invocamos>> el servicio también obtendremos una respuestá distinta.
+
+== Limpieza
+
+Limpiamos el entorno con el siguiente comando: +
+`oc -n knative-tutorial delete -f {sourceroot}/service-env.yaml`
