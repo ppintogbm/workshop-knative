@@ -4,14 +4,13 @@
 
 == Despliegue
 Para crear un servicio en _Knative_, podemos utilizar el siguiente archivo de definición: 
-ifdef::env-github[]
-<<{sourcedir}/service.yaml,service.yaml>>
-endif::[]
 
 ifndef::env-github[]
 [source,yaml]
 ----
+endif::[]
 include::{sourcedir}/service.yaml[]
+ifndef::env-github[]
 ----
 endif::[]
 
