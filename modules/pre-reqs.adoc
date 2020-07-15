@@ -1,4 +1,3 @@
-:doctype: book
 = Pre-requisitos
 
 == CLI
@@ -24,6 +23,7 @@
 |===
 
 == Namespace
-Debemos crear un `namepace`/`proyecto` para los diferentes recursos a crear.
+Debemos crear un `namespace`/`proyecto` para los diferentes recursos a crear.
 
 `oc new-project knative-tutorial --description "Knative Workshop"`
+

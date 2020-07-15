@@ -1,0 +1,125 @@
+include::_atributes.adoc[]
+:sourceroot: {sourceroot}/escalabilidad
+:sourcedir: ../../{sourceroot}
+= Escalabilidad
+
+== Escalado a 0
+Como se pudo observar en la actividad previa, pasado un tiempo los `pods` generados a partir de un `kservice` son automáticamente escalados a 0 posterior a un tiempo de inactividad. Validemos nuevamente lo anterior mediante el despliegue de:
+
+ifndef::env-github[]
+[source,yaml]
+----
+endif::[]
+include::{sourcedir}/service.yaml[]
+ifndef::env-github[]
+----
+endif::[]
+
+Procedemos a desplegar y observar el comportamiento previamente descrito con: +
+`oc -n knative-tutorial apply -f "{sourceroot}/service.yaml"`+
+`oc -n knative-tutorial get pods --watchfootnote:oc_watch[]`
+
+Una vez los pods son finalizados, cancelamos el comando con `Control+C`
+
+[#invocacion_escalabilidad]
+=== Invocación
+
+Con el servicio detenido, validaremos por medio de invocación, como este es instanciado una vez se trata de invocar. 
+
+TIP: Se recomienda la utilización del comando  `oc -n knative-tutorial get pods --watch` en otra consola, para observar como los pods son creados una vez se invoca el servicio. 
+
+Debemos obtener la `route` de acceso al servicio desplegado, lo cual podemos hacer con el comando: +
+`oc -n knative-tutorial get rt greeter`
+
+TIP: Como se observo en actividades previas, con la creación de un `kservice` se generan también otros recursos de nombre identico o similar siendo el tipo `rt` el que abrevia las rutas de acceso a los servicios.
+
+Tomando el valor de la columna URL, procedemos a invocar el servicio en cuestión con:+
+
+_Linux/macOS_ + 
+`curl -s [URL]`
+
+_Windows Powershell_ +
+`Invoke-WebRequest [URL]`
+
+TIP: Sí ejecutamos en otra consola el llamado para los `pods`, esperamos a que los mismos sean autoescalados a 0. Tratemos de estimar el tiempo apróximado que ocupa para finalizar. 
+
+La auto-escalación a 0 en _Knative_ se debe a un parametro utilizado para determinar el tiempo de inatividad permitido para un `kservice`. Este parámetro globalmente se conoce como `stable-window` y tiene un valor predeterminado de `60s`. El siguiente ejemplo nos permite alterar este valor para un `kservice` especifico:
+
+ifndef::env-github[]
+[source,yaml]
+----
+endif::[]
+include::{sourcedir}/service-fixed-window.yaml[]
+ifndef::env-github[]
+----
+endif::[]
+
+Desplegamos el mismo con: +
+`oc -n knative-tutorial apply -f {sourceroot}/service-fixed-windows.yaml`
+`oc -n knative-tutorial get pods --watch`
+
+Y procedemos por último a repetir el proceso de <<invocacion_escalabilidad,invocación>>. 
+
+TIP: Si comparamos en esta ocasión el tiempo de terminación de los `pods`, este debería haber disminuido. 
+
+== Auto-escalamiento
+
+En está sección validaremos las propiedades de auto-escalamiento de _Knative_ para adaptarse a una mayor demanda de servicio. 
+
+Para ello procederemos a desplegar un servicio en base a la siguiente definición:
+
+ifndef::env-github[]
+[source,yaml]
+----
+endif::[]
+include::{sourcedir}/service-10.yaml[]
+ifndef::env-github[]
+----
+endif::[]
+
+TIP: En la definición previa la anotación `autoscaling.knative.dev/target` se usa para indicar el número máximo de peticiones que pueden ser atendidas por cada instancia del `kservice` (`pods`). Una vez se supera dicho valor, se procede a escalar a un número mayor de instancias. 
+
+Procdemos a crear el mismo con: +
+`oc -n knative-tutorial apply -f {sourceroot}/service-10.yaml`
+
+[escalabilidad_invocacion_concurrente]
+=== Invocación concurrente
+
+Para validar el despliegue previo, procederemos a ejecutar invocaciones simultaneas al servicio. 
+
+Obtenemos la ruta del mismo con: +
+`oc -n knative-tutorial get rt prime-generator`
+
+Con la URL, procedemos a utilizar la herramienta `hey` para realizar múltiples peticiones:
+
+`hey -c 50 -z 10s "[URL]/?sleep=3&upto=10000&memload=100"`
+
+TIP: En el comando anterior el flag `-c 50` indica un número de 50 peticiones concurrentes, mientras que `-z 10s` indica por cuanto tiempo se estaran tratando de ejecutar peticiones. 
+
+Concluida la ejecución, veremos como la cantidad de `pods` del `kservice` `prime-generator` incrementan para atender la configuración de concurrencia realizada.
+
+== Escalamiento minimo
+
+Como último punto de está sección, vamos a estudiar la capacidad de definir en _Knative_ un minimo para aquellos casos en los cuales se requiera una respuesta más inmediata. 
+
+Lo anterior se puede lograr con la anotación `autoscaling.knative.dev/minScale` tal como podemos observar en la definición a continuación:
+
+ifndef::env-github[]
+[source,yaml]
+----
+endif::[]
+include::{sourcedir}/service-min-max-scale.yaml[]
+ifndef::env-github[]
+----
+endif::[]
+
+Creamos la misma con: +
+`oc -n knative-tutorial apply -f {sourceroot}/service-min-max-scale.yaml`
+
+TIP: Si verificamos los `pods`, observaremos que los mismos inician y nunca disminuyen de 2, debido a que la anotación en cuestión contempla este como el minimo. 
+
+Al también incluir la anotación estudiada en la sección <<auto-escalamiento, previa>>, el servicio en cuestión puede ser <<escalabilidad_invocacion_concurrente,invocado>> de la misma manera que en la sección previa, para validar como crece el mismo y respeta el escalamiento minimo definido según la anotación. 
+
+== Limpieza
+
+`oc -n knative-tutorial delete -f {sourceroot}/`

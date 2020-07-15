@@ -1,0 +1,14 @@
+:toc:
+:toc-title: Knative Workshop
+= Knative Workshop
+Paulo Pinto <ppinto@gbm.net>
+v0.1, July 13, 2020: Primera version
+
+Knative Workshop para Openshift Container Platform (OCP) desarrollado por Paulo Pinto para la práctica de Cloud Management, Software Business Unit, GBM.
+
+include::pre-reqs.adoc[leveloffset=+1]
+<<<
+include::serving/index.adoc[leveloffset=+1]
+<<<
+include::eventing/index.adoc[leveloffset=+1]
+<<<

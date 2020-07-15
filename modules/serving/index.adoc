@@ -1,0 +1,20 @@
+include::_atributes.adoc[]
+
+= Knative Serving
+
+_Knative Serving_ tiene como objetivo facilitar el despliegue y ejecución de servicios de aplicaciones y funciones _serverless_.
+
+== Grupos de API
+
+Podemos validar los grupos de API de `Knative Serving` con el comando:
+
+`oc api-resources --api-group='serving.knative.dev'`
+
+El mismo nos debe retornar una lista de los `CRD's`footnote:crd[Custom Resource Definition: Recurso personalizado (no predeterminado) de Kubernetes]
+
+<<<
+include::primer-servicio.adoc[leveloffset=+1]
+<<<
+include::escalabilidad.adoc[leveloffset=+1]
+<<<
+include::trafico.adoc[leveloffset=+1]
